@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "canary",
+    "next": "13.4.20-canary.13",
     "react": "latest",
     "react-dom": "latest"
   },
