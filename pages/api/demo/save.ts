@@ -18,11 +18,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         const { theme_id, name, email } = req.body;
 
-        // Mock "save to DB" operation
-        const result = await client.query('INSERT INTO partners_demo (name, email, theme_id) VALUES ($1, $2, $3) RETURNING id', [name, email, theme_id]);
-
+        try {// Mock "save to DB" operation
+            const result = await client.query('INSERT INTO partners_demo (name, email, theme_id) VALUES ($1, $2, $3) RETURNING id', [name, email, theme_id]);
+            res.status(200).json({ id: result.rows[0].id, theme_id, name, email });
+        } catch (err) {
+            const pgError = err as { code?: string, message: string };
+            if (pgError.code === '23505') {
+                // Unique constraint error
+                res.status(409).json({ error: 'Conflict', message: 'Demo with this name already exists.' });
+            } else {
+                // Other errors
+                res.status(500).json({ error: 'Internal Server Error', message: err.message });
+            }
+        }
         // Send the new item back as confirmation
-        res.status(200).json({ id: result.rows[0].id, theme_id, name, email });
     } else {
         res.status(405).send({ message: 'Only POST requests are allowed' });
     }
