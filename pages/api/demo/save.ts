@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 res.status(409).json({ error: 'Conflict', message: 'Demo with this name already exists.' });
             } else {
                 // Other errors
-                res.status(500).json({ error: 'Internal Server Error', message: err.message });
+                res.status(500).json({ error: 'Internal Server Error', message: pgError.message });
             }
         }
         // Send the new item back as confirmation
