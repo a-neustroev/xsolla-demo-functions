@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Theme } from '../../models/theme'
+import { Theme } from '../../../models/theme'
 
 let themes: Theme[] = []
 
@@ -24,7 +24,7 @@ export default function handler(
         if (!isValidTheme(req.body)) {
             res.status(400).json({ message: 'Invalid theme data' })
         }
-        // Mock "saving" new theme
+        // Mock "saving" new theme. Soon to be replaced by saving in API customization
         const newTheme: Theme = {
             ...req.body,
             id: generateUUID(), // assign a random UUID
