@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@xsolla/switch-themes": "^0.12.1",
     "next": "13.4.20-canary.13",
     "pg": "^8.11.5",
     "react": "latest",
