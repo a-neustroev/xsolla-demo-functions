@@ -1,13 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Theme } from '../../../models/theme'
+import {Theme, IsValidTheme} from '../../../models/theme'
 
 let themes: Theme[] = []
-
-const isValidTheme = (theme: any): theme is Theme => {
-    return typeof theme.background_color === 'string' &&
-        typeof theme.font_color === 'string' &&
-        typeof theme.accent_color === 'string'
-}
 
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -21,7 +15,7 @@ export default function handler(
     res: NextApiResponse
 ) {
     if (req.method === 'POST') {
-        if (!isValidTheme(req.body)) {
+        if (!IsValidTheme(req.body)) {
             res.status(400).json({ message: 'Invalid theme data' })
         }
         // Mock "saving" new theme. Soon to be replaced by saving in API customization
